@@ -1,6 +1,6 @@
 {
-  "short_name": "React App",
-  "name": "Create React App Sample",
+  "short_name": "Cidade Ajuda",
+  "name": "Cidade Ajuda",
   "icons": [
     {
       "src": "favicon.ico",
@@ -16,10 +16,11 @@
       "src": "logo512.png",
       "type": "image/png",
       "sizes": "512x512"
-    }	    
+    }
   ],
   "start_url": ".",
-  "display": "standalone",
-  "theme_color": "#000000",
-  "background_color": "#ffffff"
+  "display": "fullscreen",
+  "orientation": "portrait",
+  "theme_color": "#009e38",
+  "background_color": "#009e38"
 }
