@@ -1,24 +1,22 @@
-import React from 'react';
-import logo from './logo.svg';
+import React, {useState} from 'react';
 import './App.css';
+import BottomMenu from './components/BottomMenu/BottomMenu';
+import Mapa from './pages/Mapa';
+import Relatorio from './pages/Relatorio';
 
 function App() {
+  const [active, setActive] = useState('mapa');
+
+  function handleEvent(newValue){
+    console.log(newValue);
+    setActive(newValue);
+  }
+  
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    {(active === 'mapa') && <Mapa /> }
+    {(active === 'relatorio') && <Relatorio /> }
+    <BottomMenu default_state={active} onChange={handleEvent}/>
     </div>
   );
 }
