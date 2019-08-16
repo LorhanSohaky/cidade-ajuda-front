@@ -22,5 +22,8 @@
   "display": "fullscreen",
   "orientation": "portrait",
   "theme_color": "#009e38",
-  "background_color": "#009e38"
+  "background_color": "#009e38",
+  "required_features": [
+    "geolocation"
+  ]
 }
