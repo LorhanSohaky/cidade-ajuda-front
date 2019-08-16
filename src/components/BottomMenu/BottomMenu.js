@@ -8,7 +8,7 @@ import LocationOnIcon from '@material-ui/icons/LocationOn';
 
 import './BottomMenu.css';
 
-function BottomMenu({ history,default_state, onChange}) {
+function BottomMenu({ history, default_state, onChange }) {
 	const [value, setValue] = React.useState(default_state);
 
 	function handleChange(event, newValue) {
@@ -20,7 +20,7 @@ function BottomMenu({ history,default_state, onChange}) {
 		<BottomNavigation value={value} onChange={handleChange}>
 			<BottomNavigationAction label="Mapa" value="mapa" icon={<LocationOnIcon />} />
 			<BottomNavigationAction label="Relatório" value="relatorio" icon={<PollIcon />} />
-			<BottomNavigationAction label="Perfil" value="perfil" icon={<PersonIcon/>}  />
+			<BottomNavigationAction label="Perfil" value="perfil" icon={<PersonIcon />} />
 		</BottomNavigation>
 	);
 }
