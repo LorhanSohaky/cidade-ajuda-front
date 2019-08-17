@@ -1,0 +1,9 @@
+
+#mapBox {
+    
+    height: 100%;
+}
+
+#mapBox div:first-child {
+    height: 100%;
+}

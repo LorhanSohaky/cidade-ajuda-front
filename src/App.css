@@ -1,34 +1,21 @@
 .App {
   text-align: center;
-  min-height: 100vh;
-  background-color: aqua;
-  display: flex;
-  flex-direction: column;
-}
-
-.App-logo {
-  animation: App-logo-spin infinite 20s linear;
+  height: 100vh;
+  background-color: purple;
   
-  height: 100%;
-  pointer-events: none;
+  
 }
 
-.App-header {
-  height: 100%;
-  background-color: #282c34;
-  font-size: calc(10px + 2vmin);
-  color: white;  
+.content{
+  width: 100%;
+  background-color: DodgerBlue;
+  height: calc(100% - 56px);
 }
 
-.App-link {
-  color: #61dafb;
-}
-
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+.menu{
+  bottom: 0;
+  height:56;
+  background-color: red;
+  width:100%;
+  
 }

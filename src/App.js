@@ -14,9 +14,13 @@ function App() {
 
   return (
     <div className="App">
-      {(active === 'mapa') && <Mapa />}
-      {(active === 'relatorio') && <Relatorio />}
-      <BottomMenu default_state={active} onChange={handleEvent} />
+      <div className="content">
+        {(active === 'mapa') && <Mapa className />}
+        {(active === 'relatorio') && <Relatorio />}
+      </div>
+      <div className="menu">
+        <BottomMenu default_state={active} onChange={handleEvent} />
+      </div>
     </div>
   );
 }

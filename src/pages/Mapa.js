@@ -1,15 +1,24 @@
 import React from 'react';
-import { Map, Marker, GoogleApiWrapper, InfoWindow } from 'google-maps-react';
+import { withScriptjs, withGoogleMap, GoogleMap, Marker, } from 'react-google-maps';
 import { geolocated } from "react-geolocated";
+import './Mapa.css';
+
+
 
 export function Mapa(props) {
   const [latitude, setLatitude] = React.useState(30);
   const [longitude, setLongitude] = React.useState(30);
 
-  const mapStyles = {
-    width: '100%',
-    height: '100%',
-  };
+  const MapWithAMarker = withScriptjs(withGoogleMap(props =>
+    <GoogleMap
+      defaultZoom={8}
+      defaultCenter={{ lat: latitude, lng: longitude }}
+    >
+      <Marker
+        position={{ lat: -34.397, lng: 150.644 }}
+      />
+    </GoogleMap>
+  ));
 
   if (props.coords) {
     if (latitude !== props.coords.latitude) {
@@ -22,17 +31,16 @@ export function Mapa(props) {
     console.log(latitude, longitude);
   }
 
-
-
   return (
-    <Map
-      google={props.google}
-      zoom={15}
-      style={mapStyles}
-      center={{ lat: latitude, lng: longitude }}
-    >
-      <Marker position={{ lat: latitude, lng: longitude }} />
-    </Map>
+    <div id="mapBox">
+      <MapWithAMarker
+        googleMapURL="https://maps.googleapis.com/maps/api/js?key=AIzaSyDfM2J35Kits1dRLyXV2xybtRizqD5rLUc&v=3.exp&libraries=geometry,drawing,places"
+        loadingElement={<div style={{ height: `100%` }} />}
+        containerElement={<div style={{ height: `100%` }} />}
+        mapElement={<div style={{ height: `100%` }} />}
+        center={{ lat: 25.03, lng: 21.6 }}
+      />
+    </div>
   );
 }
 
@@ -41,6 +49,6 @@ export default geolocated({
     enableHighAccuracy: false,
   },
   userDecisionTimeout: 5000,
-})(GoogleApiWrapper({
-  apiKey: 'AIzaSyDfM2J35Kits1dRLyXV2xybtRizqD5rLUc'
-})(Mapa));
+})(Mapa);
+
+

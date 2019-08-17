@@ -1,7 +1,5 @@
 .MuiBottomNavigation-root{
 	background-color: #009e38!important;
-	position: fixed;
-	bottom: 0;
 	width: 100%;
 }
 .MuiBottomNavigationAction-root.Mui-selected{
