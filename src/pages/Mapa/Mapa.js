@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { withScriptjs, withGoogleMap, GoogleMap, } from 'react-google-maps';
 import Fab from '@material-ui/core/Fab';
 import AddIcon from '@material-ui/icons/Add';
@@ -12,6 +12,14 @@ const GOOGLE_MAPS_API_KEY = process.env.REACT_APP_GOOGLE_MAPS_API;
 export function Mapa(props) {
   const [latitude, setLatitude] = React.useState(30);
   const [longitude, setLongitude] = React.useState(30);
+  const [smaller, setSmaller] = React.useState(false);
+
+  useEffect(() => {
+    window.addEventListener('resize', () => {
+      setSmaller(window.innerWidth <= 568);
+    }, false);
+  });
+
 
   const MapWithAMarker = withScriptjs(withGoogleMap(props =>
     <GoogleMap
@@ -41,10 +49,12 @@ export function Mapa(props) {
   }
 
 
+  const sizeButtom = smaller ? 'small' : 'medium';
+
   return (
 
-    <div id="mapBox">
-      <Fab color="primary" aria-label="add" className="add-button" onClick={props.onAddEvent}>
+    <div id="mapBox" >
+      <Fab color="primary" aria-label="add" className="add-button" onClick={props.onAddEvent} size={sizeButtom}>
         <AddIcon />
       </Fab>
       <MapWithAMarker
