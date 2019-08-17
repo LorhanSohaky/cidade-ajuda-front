@@ -7,3 +7,11 @@
 #mapBox div:first-child {
     height: 100%;
 }
+
+.add-button{
+    z-index: 1;
+    position: absolute !important;
+    bottom: 85px;
+    right: 15px;
+    background-color:#66bb6a!important;
+}

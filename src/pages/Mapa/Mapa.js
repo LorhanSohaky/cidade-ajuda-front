@@ -1,5 +1,7 @@
 import React from 'react';
-import { withScriptjs, withGoogleMap, GoogleMap, Marker, } from 'react-google-maps';
+import { withScriptjs, withGoogleMap, GoogleMap, } from 'react-google-maps';
+import Fab from '@material-ui/core/Fab';
+import AddIcon from '@material-ui/icons/Add';
 import { geolocated } from "react-geolocated";
 import './Mapa.css';
 
@@ -10,8 +12,6 @@ const GOOGLE_MAPS_API_KEY = process.env.REACT_APP_GOOGLE_MAPS_API;
 export function Mapa(props) {
   const [latitude, setLatitude] = React.useState(30);
   const [longitude, setLongitude] = React.useState(30);
-
-
 
   const MapWithAMarker = withScriptjs(withGoogleMap(props =>
     <GoogleMap
@@ -27,9 +27,6 @@ export function Mapa(props) {
         fullscreenControl: false
       }}
     >
-      <Marker
-        position={{ lat: -34.397, lng: 150.644 }}
-      />
     </GoogleMap>
   ));
 
@@ -41,28 +38,29 @@ export function Mapa(props) {
     if (longitude !== props.coords.longitude) {
       setLongitude(props.coords.longitude);
     }
-    console.log(latitude, longitude);
-    console.log('chave', process.env);
   }
 
 
   return (
 
     <div id="mapBox">
+      <Fab color="primary" aria-label="add" className="add-button" onClick={props.onAddEvent}>
+        <AddIcon />
+      </Fab>
       <MapWithAMarker
         googleMapURL={`https://maps.googleapis.com/maps/api/js?key=${GOOGLE_MAPS_API_KEY}&v=3.exp&libraries=geometry,drawing,places`}
         loadingElement={<div style={{ height: `100%` }} />}
         containerElement={<div style={{ height: `100%` }} />}
         mapElement={<div style={{ height: `100%` }} />}
-        center={{ lat: 25.03, lng: 21.6 }}
+        center={{ lat: latitude, lng: longitude }}
       />
-    </div>
+    </div >
   );
 }
 
 export default geolocated({
   positionOptions: {
-    enableHighAccuracy: false,
+    enableHighAccuracy: true,
   },
   userDecisionTimeout: 5000,
 })(Mapa);
