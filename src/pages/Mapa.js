@@ -11,7 +11,7 @@ export function Mapa(props) {
 
   const MapWithAMarker = withScriptjs(withGoogleMap(props =>
     <GoogleMap
-      defaultZoom={8}
+      defaultZoom={15}
       defaultCenter={{ lat: latitude, lng: longitude }}
     >
       <Marker
