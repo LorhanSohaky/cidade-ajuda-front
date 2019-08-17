@@ -8,7 +8,7 @@ import LocationOnIcon from '@material-ui/icons/LocationOn';
 
 import './BottomMenu.css';
 
-function BottomMenu({ history, default_state, onChange }) {
+function BottomMenu({ default_state, onChange }) {
 	const [value, setValue] = React.useState(default_state);
 
 	function handleChange(event, newValue) {
