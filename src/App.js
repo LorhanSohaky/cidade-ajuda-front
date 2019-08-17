@@ -1,21 +1,20 @@
 import React, { useState } from 'react';
 import './App.css';
 import BottomMenu from './components/BottomMenu/BottomMenu';
-import Mapa from './pages/Mapa';
-import Relatorio from './pages/Relatorio';
+import Mapa from './pages/Mapa/Mapa';
+import Relatorio from './pages/Relatorio/Relatorio';
 
 function App() {
   const [active, setActive] = useState('mapa');
 
   function handleEvent(newValue) {
-    console.log(newValue);
     setActive(newValue);
   }
 
   return (
     <div className="App">
       <div className="content">
-        {(active === 'mapa') && <Mapa className />}
+        {(active === 'mapa') && <Mapa />}
         {(active === 'relatorio') && <Relatorio />}
       </div>
       <div className="menu">
