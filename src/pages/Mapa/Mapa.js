@@ -1,43 +1,29 @@
 import React, { useEffect } from 'react';
-import { withScriptjs, withGoogleMap, GoogleMap, } from 'react-google-maps';
 import Fab from '@material-ui/core/Fab';
 import AddIcon from '@material-ui/icons/Add';
 import { geolocated } from "react-geolocated";
+import { Map, TileLayer } from "react-leaflet";
+import "leaflet/dist/leaflet.css";
 import './Mapa.css';
 
-const GOOGLE_MAPS_API_KEY = process.env.REACT_APP_GOOGLE_MAPS_API;
+const DEFAULT_VIEWPORT = {
+  center: [51.505, -0.09],
+  zoom: 18,
+}
 
-
-
-export function Mapa(props) {
+export function Mapa({ isGeolocationAvailable, coords,...props }) {
   const [latitude, setLatitude] = React.useState(30);
   const [longitude, setLongitude] = React.useState(30);
   const [smaller, setSmaller] = React.useState(false);
+	const [viewport, setViewport] = React.useState(DEFAULT_VIEWPORT);
 
-  useEffect(() => {
-    window.addEventListener('resize', () => {
-      setSmaller(window.innerWidth <= 568);
-    }, false);
-  });
+	useEffect((viewport)=>{
+		if (coords){
+			setViewport({...viewport, center:[coords.latitude, coords.longitude]})
+		}
+	},[isGeolocationAvailable, coords])
 
-
-  const MapWithAMarker = withScriptjs(withGoogleMap(props =>
-    <GoogleMap
-      defaultZoom={15}
-      defaultCenter={{ lat: latitude, lng: longitude }}
-      defaultOptions={{
-        streetViewControl: false,
-        scaleControl: false,
-        mapTypeControl: true,
-        panControl: false,
-        zoomControl: false,
-        rotateControl: false,
-        fullscreenControl: false
-      }}
-    >
-    </GoogleMap>
-  ));
-
+ 
   if (props.coords) {
     if (latitude !== props.coords.latitude) {
       setLatitude(props.coords.latitude);
@@ -49,6 +35,13 @@ export function Mapa(props) {
   }
 
 
+	useEffect(() => {
+    window.addEventListener('resize', () => {
+      setSmaller(window.innerWidth <= 568);
+    }, false);
+		})
+
+
   const sizeButtom = smaller ? 'small' : 'medium';
 
   return (
@@ -57,13 +50,16 @@ export function Mapa(props) {
       <Fab color="primary" aria-label="add" className="add-button" onClick={props.onAddEvent} size={sizeButtom}>
         <AddIcon />
       </Fab>
-      <MapWithAMarker
-        googleMapURL={`https://maps.googleapis.com/maps/api/js?key=${GOOGLE_MAPS_API_KEY}&v=3.exp&libraries=geometry,drawing,places`}
-        loadingElement={<div style={{ height: `100%` }} />}
-        containerElement={<div style={{ height: `100%` }} />}
-        mapElement={<div style={{ height: `100%` }} />}
-        center={{ lat: latitude, lng: longitude }}
-      />
+			<Map
+				style={{height: '100%'}}
+				maxZoom={19}
+        onViewportChanged={newViewport => setViewport(newViewport)}
+        viewport={viewport}>
+        <TileLayer
+          attribution='&amp;copy <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
+          url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+        />
+      </Map>
     </div >
   );
 }
