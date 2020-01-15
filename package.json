@@ -21,6 +21,11 @@
     "lint": "prettier-standard --check --lint \"src/**/*.js\"",
     "lint:fix": "prettier-standard --lint \"src/**/*.js\""
   },
+  "husky": {
+    "hooks": {
+      "pre-commit": "npm run lint"
+    }
+  },
   "eslintConfig": {
     "extends": "react-app"
   },
@@ -37,6 +42,7 @@
     ]
   },
   "devDependencies": {
+    "husky": "^4.0.9",
     "prettier-standard": "^16.1.0",
     "serve": "^11.1.0"
   }
