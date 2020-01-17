@@ -1,0 +1,19 @@
+.App {
+  text-align: center;
+  height: 100vh;
+  background-color:#191919;
+  
+  
+}
+
+.content{
+  width: 100%;
+  height: calc(100% - 56px);
+}
+
+.menu{
+  bottom: 0;
+  height:56;
+  width:100%;
+  
+}
