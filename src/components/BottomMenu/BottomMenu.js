@@ -6,8 +6,6 @@ import PersonIcon from '@material-ui/icons/Person'
 import PollIcon from '@material-ui/icons/Poll'
 import LocationOnIcon from '@material-ui/icons/LocationOn'
 
-import './BottomMenu.css'
-
 function BottomMenu ({ defaultState, onChange }) {
   const [value, setValue] = React.useState(defaultState)
 
