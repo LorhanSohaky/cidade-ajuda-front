@@ -1,32 +1,71 @@
 import React, { useState } from 'react'
-import './App.css'
-import BottomMenu from '../../components/BottomMenu/BottomMenu'
+
+import { Box } from '@material-ui/core'
+import BottomNavigation from '@material-ui/core/BottomNavigation'
+import BottomNavigationAction from '@material-ui/core/BottomNavigationAction'
+import { LocationOn, Person, Poll } from '@material-ui/icons'
+
 import Mapa from '../Mapa/Mapa'
 import Relatorio from '../Relatorio/Relatorio'
-import { paths } from '../../routes'
 
-function App ({ history }) {
-  const [active, setActive] = useState('mapa')
+const Home = () => {
+  const [active, setActive] = useState('map')
 
-  function handleEvent (newValue) {
-    setActive(newValue)
-  }
-
-  function handleAddOcorrencia () {
-    history.push(paths.incident.create)
+  function handleEvent (_, value) {
+    setActive(value)
   }
 
   return (
-    <div className='App'>
-      <div className='content'>
-        {active === 'mapa' && <Mapa onAddEvent={handleAddOcorrencia} />}
-        {active === 'relatorio' && <Relatorio />}
-      </div>
-      <div className='menu'>
-        <BottomMenu default_state={active} onChange={handleEvent} />
-      </div>
-    </div>
+    <Box display='flex' flexDirection='column' height='100vh'>
+      <Content active={active} />
+      <Menu active={active} onChange={handleEvent} />
+    </Box>
   )
 }
 
-export default App
+const contents = {
+  map: {
+    label: 'Mapa',
+    value: 'map'
+  },
+  report: {
+    label: 'Relatório',
+    value: 'report'
+  },
+  profile: {
+    label: 'Perfil',
+    value: 'profile'
+  }
+}
+
+const Content = ({ active }) => {
+  const content = {}
+  content[contents.map.value] = <Mapa />
+  content[contents.report.value] = <Relatorio />
+
+  return <Box height='100%'>{content[active] || <p>Default</p>}</Box>
+}
+
+const Menu = ({ active, onChange }) => {
+  return (
+    <BottomNavigation value={active} onChange={onChange}>
+      <BottomNavigationAction
+        label={contents.map.label}
+        value={contents.map.value}
+        icon={<LocationOn />}
+      />
+      <BottomNavigationAction
+        label={contents.report.label}
+        value={contents.report.value}
+        icon={<Poll />}
+      />
+      <BottomNavigationAction
+        label={contents.profile.label}
+        value={contents.profile.value}
+        icon={<Person />}
+      />
+    </BottomNavigation>
+  )
+}
+
+export default Home
