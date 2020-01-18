@@ -2,7 +2,7 @@ import React, { useEffect } from 'react'
 import Fab from '@material-ui/core/Fab'
 import AddIcon from '@material-ui/icons/Add'
 import { geolocated } from 'react-geolocated'
-import { Map, TileLayer } from 'react-leaflet'
+import { Map as LeafMap, TileLayer } from 'react-leaflet'
 import 'leaflet/dist/leaflet.css'
 import './Mapa.css'
 
@@ -11,33 +11,19 @@ const DEFAULT_VIEWPORT = {
   zoom: 18
 }
 
-export function Mapa ({ isGeolocationAvailable, coords, ...props }) {
-  const [latitude, setLatitude] = React.useState(30)
-  const [longitude, setLongitude] = React.useState(30)
+export function Map ({ isGeolocationEnabled, coords, ...props }) {
   const [smaller, setSmaller] = React.useState(false)
   const [viewport, setViewport] = React.useState(DEFAULT_VIEWPORT)
 
-  useEffect(
-    viewport => {
-      if (coords) {
-        setViewport({
-          ...viewport,
-          center: [coords.latitude, coords.longitude]
-        })
-      }
-    },
-    [isGeolocationAvailable, coords]
-  )
-
-  if (props.coords) {
-    if (latitude !== props.coords.latitude) {
-      setLatitude(props.coords.latitude)
+  useEffect(() => {
+    if (!coords) {
+      return
     }
-
-    if (longitude !== props.coords.longitude) {
-      setLongitude(props.coords.longitude)
-    }
-  }
+    setViewport(prevViewport => ({
+      ...prevViewport,
+      center: [coords.latitude, coords.longitude]
+    }))
+  }, [coords])
 
   useEffect(() => {
     window.addEventListener(
@@ -62,7 +48,7 @@ export function Mapa ({ isGeolocationAvailable, coords, ...props }) {
       >
         <AddIcon />
       </Fab>
-      <Map
+      <LeafMap
         style={{ height: '100%' }}
         maxZoom={19}
         onViewportChanged={newViewport => setViewport(newViewport)}
@@ -72,14 +58,16 @@ export function Mapa ({ isGeolocationAvailable, coords, ...props }) {
           attribution='&amp;copy <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
           url='https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png'
         />
-      </Map>
+      </LeafMap>
     </div>
   )
 }
 
-export default geolocated({
+const gelocatedProps = {
   positionOptions: {
     enableHighAccuracy: true
   },
-  userDecisionTimeout: 5000
-})(Mapa)
+  watchPosition: true
+}
+
+export default geolocated(gelocatedProps)(Map)

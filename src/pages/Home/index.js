@@ -5,7 +5,7 @@ import BottomNavigation from '@material-ui/core/BottomNavigation'
 import BottomNavigationAction from '@material-ui/core/BottomNavigationAction'
 import { LocationOn, Person, Poll } from '@material-ui/icons'
 
-import Mapa from '../Mapa/Mapa'
+import Map from '../Map'
 import Relatorio from '../Relatorio/Relatorio'
 
 const Home = () => {
@@ -40,7 +40,7 @@ const contents = {
 
 const Content = ({ active }) => {
   const content = {}
-  content[contents.map.value] = <Mapa />
+  content[contents.map.value] = <Map />
   content[contents.report.value] = <Relatorio />
 
   return <Box height='100%'>{content[active] || <p>Default</p>}</Box>
