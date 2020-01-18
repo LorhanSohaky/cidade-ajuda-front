@@ -3,6 +3,7 @@ import './App.css'
 import BottomMenu from '../../components/BottomMenu/BottomMenu'
 import Mapa from '../Mapa/Mapa'
 import Relatorio from '../Relatorio/Relatorio'
+import { paths } from '../../routes'
 
 function App ({ history }) {
   const [active, setActive] = useState('mapa')
@@ -12,7 +13,7 @@ function App ({ history }) {
   }
 
   function handleAddOcorrencia () {
-    history.push('/nova-ocorrencia')
+    history.push(paths.incident.create)
   }
 
   return (
