@@ -13,7 +13,7 @@ import { paths } from '../../routes'
 
 const DEFAULT_VIEWPORT = {
   center: [51.505, -0.09],
-  zoom: 18
+  zoom: 17
 }
 
 export function Map ({ history, coords }) {
@@ -82,8 +82,7 @@ const AddButton = styled(Fab)(({ theme }) => ({
 const gelocatedProps = {
   positionOptions: {
     enableHighAccuracy: true
-  },
-  watchPosition: true
+  }
 }
 
 export default withRouter(geolocated(gelocatedProps)(Map))
