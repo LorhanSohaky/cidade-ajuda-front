@@ -1,17 +1,22 @@
 import React, { useEffect } from 'react'
-import Fab from '@material-ui/core/Fab'
+import { withRouter } from 'react-router'
+
+import { Box, Fab } from '@material-ui/core'
+import { styled } from '@material-ui/core/styles'
 import AddIcon from '@material-ui/icons/Add'
+
 import { geolocated } from 'react-geolocated'
 import { Map as LeafMap, TileLayer } from 'react-leaflet'
 import 'leaflet/dist/leaflet.css'
-import './Mapa.css'
+
+import { paths } from '../../routes'
 
 const DEFAULT_VIEWPORT = {
   center: [51.505, -0.09],
   zoom: 18
 }
 
-export function Map ({ isGeolocationEnabled, coords, ...props }) {
+export function Map ({ history, coords }) {
   const [smaller, setSmaller] = React.useState(false)
   const [viewport, setViewport] = React.useState(DEFAULT_VIEWPORT)
 
@@ -37,17 +42,21 @@ export function Map ({ isGeolocationEnabled, coords, ...props }) {
 
   const sizeButtom = smaller ? 'small' : 'medium'
 
+  const handleClick = () => {
+    history.push(paths.incident.create)
+  }
+
   return (
-    <div id='mapBox'>
-      <Fab
+    <Box height='100%'>
+      <AddButton
         color='primary'
-        aria-label='add'
-        className='add-button'
-        onClick={props.onAddEvent}
+        aria-label='report incident'
+        onClick={handleClick}
         size={sizeButtom}
       >
         <AddIcon />
-      </Fab>
+      </AddButton>
+
       <LeafMap
         style={{ height: '100%' }}
         maxZoom={19}
@@ -59,9 +68,16 @@ export function Map ({ isGeolocationEnabled, coords, ...props }) {
           url='https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png'
         />
       </LeafMap>
-    </div>
+    </Box>
   )
 }
+
+const AddButton = styled(Fab)(({ theme }) => ({
+  position: 'absolute',
+  zIndex: 401,
+  bottom: theme.spacing(10),
+  right: theme.spacing(1)
+}))
 
 const gelocatedProps = {
   positionOptions: {
@@ -70,4 +86,4 @@ const gelocatedProps = {
   watchPosition: true
 }
 
-export default geolocated(gelocatedProps)(Map)
+export default withRouter(geolocated(gelocatedProps)(Map))
