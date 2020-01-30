@@ -7,6 +7,7 @@ import { LocationOn, Person, Poll } from '@material-ui/icons'
 
 import Map from '../Map'
 import Report from '../Report'
+import Login from '../Login'
 
 const Home = () => {
   const [active, setActive] = useState('map')
@@ -42,8 +43,13 @@ const Content = ({ active }) => {
   const content = {}
   content[contents.map.value] = <Map />
   content[contents.report.value] = <Report />
+  content[contents.profile.value] = <Login />
 
-  return <Box height='100%'>{content[active] || <p>Default</p>}</Box>
+  return (
+    <Box flex={1} display='flex'>
+      {content[active] || <p>Default</p>}
+    </Box>
+  )
 }
 
 const Menu = ({ active, onChange }) => {
