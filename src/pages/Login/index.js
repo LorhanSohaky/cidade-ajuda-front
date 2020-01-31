@@ -1,9 +1,12 @@
 import React, { useState } from 'react'
 import { Box, TextField, Button } from '@material-ui/core'
+import { bindActionCreators } from 'redux'
+import { connect } from 'react-redux'
 import logo from '../../assets/logo.png'
 import API from '../../services/api'
+import settings from '../../redux/settings'
 
-function Login () {
+function Login ({ setToken }) {
   const [fields, setFields] = useState({})
 
   const handleEvent = event => {
@@ -13,7 +16,9 @@ function Login () {
     event.preventDefault()
 
     API.login(fields)
-      .then(response => console.log(response))
+      .then(response => {
+        setToken(response.data.token)
+      })
       .catch(err => console.error(err))
   }
 
@@ -67,4 +72,13 @@ function Login () {
   )
 }
 
-export default Login
+const mapStateToProps = state => ({})
+
+const mapDispatchToProps = dispatch =>
+  bindActionCreators(
+    {
+      setToken: settings.setToken
+    },
+    dispatch
+  )
+export default connect(mapStateToProps, mapDispatchToProps)(Login)

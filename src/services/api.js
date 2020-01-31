@@ -1,4 +1,6 @@
-import { create } from 'apisauce'
+import apisauce from 'apisauce'
+
+const BASE_URL = 'https://cidade-ajuda.herokuapp.com'
 
 const responseWrapper = async response => {
   if (response.ok) {
@@ -8,14 +10,26 @@ const responseWrapper = async response => {
   throw new Error(response)
 }
 
-const BASE_URL = 'https://cidade-ajuda.herokuapp.com'
-
-const api = create({ baseURL: BASE_URL })
-
-api.addAsyncResponseTransform(responseWrapper)
+const bindToken = token => async request => {
+  if (token) {
+    request.headers.Authorization = token
+  }
+}
 
 const API = {}
 
-API.login = ({ username, password }) =>
-  api.post('/api-token-auth/', { username, password })
+export const create = (input = {}) => {
+  const config = {
+    baseURL: input.baseURL || BASE_URL,
+    token: input.token || undefined
+  }
+  const api = apisauce.create({ baseURL: config.baseURL })
+
+  api.addAsyncRequestTransform(bindToken(config.token))
+  api.addAsyncResponseTransform(responseWrapper)
+
+  API.login = ({ username, password }) =>
+    api.post('/api-token-auth/', { username, password })
+}
+
 export default API
