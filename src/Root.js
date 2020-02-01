@@ -2,7 +2,7 @@ import React from 'react'
 import Routes from './routes'
 import { create } from './services/api'
 import { connect } from 'react-redux'
-import { GeolocatedHandler } from './services/helpers'
+import { GeolocatedHandler, DimensionsListener } from './services/helpers'
 
 const Root = ({ token }) => {
   create({ token })
@@ -10,6 +10,7 @@ const Root = ({ token }) => {
     <>
       <Routes />
       <GeolocatedHandler />
+      <DimensionsListener />
     </>
   )
 }

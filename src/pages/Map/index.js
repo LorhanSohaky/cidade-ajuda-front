@@ -16,7 +16,7 @@ const DEFAULT_VIEWPORT = {
   zoom: 17
 }
 
-export function Map ({ history, coords }) {
+export function Map ({ history, coords, dimensions }) {
   const [smaller, setSmaller] = React.useState(false)
   const [loadedLocation, setLoadedLocation] = React.useState(false)
   const [viewport, setViewport] = React.useState(DEFAULT_VIEWPORT)
@@ -32,14 +32,10 @@ export function Map ({ history, coords }) {
   }, [coords, loadedLocation])
 
   useEffect(() => {
-    window.addEventListener(
-      'resize',
-      () => {
-        setSmaller(window.innerWidth <= 568)
-      },
-      false
-    )
-  })
+    if (dimensions) {
+      setSmaller(dimensions.width <= 568)
+    }
+  }, [dimensions])
 
   const sizeButtom = smaller ? 'small' : 'medium'
 
@@ -81,5 +77,6 @@ const AddButton = styled(Fab)(({ theme }) => ({
 }))
 
 export default connect(state => ({
-  coords: state.settingsState.coords
+  coords: state.settingsState.coords,
+  dimensions: state.settingsState.dimensions
 }))(withRouter(Map))
