@@ -12,7 +12,8 @@ const gelocatedProps = {
 }
 
 const _geolocatedHandler = connect(null, dispatch =>
-  bindActionCreators({ setCoords: settingsActions.setCoords }, dispatch))(({ coords, setCoords }) => {
+  bindActionCreators({ setCoords: settingsActions.setCoords }, dispatch)
+)(({ coords, setCoords }) => {
   useEffect(() => {
     if (coords) {
       const { latitude, longitude } = coords
