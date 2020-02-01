@@ -2,8 +2,7 @@ import { createActions, createReducer } from 'reduxsauce'
 
 const INITIAL_STATE = { token: undefined }
 
-export const setToken = (state = INITIAL_STATE, { token }) => {
-  console.log('Setting token')
+const setToken = (state = INITIAL_STATE, { token }) => {
   return { ...state, token }
 }
 
@@ -11,8 +10,11 @@ const { Types, Creators } = createActions({
   setToken: ['token']
 })
 
-export default Creators
-
-export const reducer = createReducer(INITIAL_STATE, {
+const HANDLERS = {
   [Types.SET_TOKEN]: setToken
-})
+}
+
+export const settingsReducer = createReducer(INITIAL_STATE, HANDLERS)
+export const SettingsTypes = Types
+
+export default Creators

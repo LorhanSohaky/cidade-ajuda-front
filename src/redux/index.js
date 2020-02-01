@@ -1,6 +1,12 @@
-import { combineReducers } from 'redux'
-import { reducer as settings } from './settings'
+import { combineReducers, createStore, applyMiddleware } from 'redux'
+import { settingsReducer } from './settings'
+import logger from 'redux-logger'
 
-export const reducers = combineReducers({
-  settings
+const reducers = combineReducers({
+  settingsState: settingsReducer
 })
+
+const middlewares = [logger]
+
+const store = createStore(reducers, applyMiddleware(...middlewares))
+export default store
