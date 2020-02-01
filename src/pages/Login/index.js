@@ -33,13 +33,9 @@ function Login ({ setToken }) {
             style={{ objectFit: 'contain' }}
           />
         </Box>
-        <Box
-          flex={2}
-          display='flex'
-          flexDirection='column'
-          justifyContent='space-around'
-        >
+        <Box style={{ display: 'flex', flexDirection: 'column', flex: 1 }}>
           <TextField
+            style={{ marginTop: 16 }}
             name='username'
             onChange={handleEvent}
             label='Usuário'
@@ -47,6 +43,7 @@ function Login ({ setToken }) {
             required
           />
           <TextField
+            style={{ marginTop: 16 }}
             name='password'
             onChange={handleEvent}
             label='Senha'
@@ -57,13 +54,17 @@ function Login ({ setToken }) {
           />
         </Box>
         <Box
-          padding={2}
           flex={1}
           display='flex'
           alignItems='center'
           justifyContent='center'
         >
-          <Button color='primary' variant='contained' type='submit'>
+          <Button
+            color='primary'
+            variant='contained'
+            type='submit'
+            style={{ flex: 1 }}
+          >
             Entrar
           </Button>
         </Box>

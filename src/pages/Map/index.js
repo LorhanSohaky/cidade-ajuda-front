@@ -47,7 +47,7 @@ export function Map ({ history, coords }) {
   }
 
   return (
-    <Box height='100%'>
+    <Box flex={1}>
       <AddButton
         color='primary'
         aria-label='report incident'

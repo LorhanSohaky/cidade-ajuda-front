@@ -12,8 +12,8 @@ const Report = () => {
   return (
     <Box
       m={2}
-      height='100%'
       display='flex'
+      flex={1}
       flexDirection='column'
       alignItems='center'
     >
