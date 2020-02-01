@@ -27,19 +27,24 @@ const _geolocatedHandler = connect(null, dispatch =>
 export const GeolocatedHandler = geolocated(gelocatedProps)(_geolocatedHandler)
 
 export const DimensionsListener = connect(null, dispatch =>
-  bindActionCreators({
-    setDimensions: settingsActions.setDimensions
-  }, dispatch))(({ setDimensions }) => {
-  window.addEventListener('resize', () => {
-    setDimensions({ width: window.innerWidth, height: window.innerHeight })
-  },
-  false
+  bindActionCreators(
+    {
+      setDimensions: settingsActions.setDimensions
+    },
+    dispatch
+  )
+)(({ setDimensions }) => {
+  window.addEventListener(
+    'resize',
+    () => {
+      setDimensions({ width: window.innerWidth, height: window.innerHeight })
+    },
+    false
   )
 
   useEffect(() => {
     setDimensions({ width: window.innerWidth, height: window.innerHeight })
-  }
-  , [setDimensions])
+  }, [setDimensions])
 
   return null
 })
