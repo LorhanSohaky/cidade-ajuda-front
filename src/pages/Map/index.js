@@ -5,30 +5,31 @@ import { Box, Fab } from '@material-ui/core'
 import { styled } from '@material-ui/core/styles'
 import AddIcon from '@material-ui/icons/Add'
 
-import { geolocated } from 'react-geolocated'
 import { Map as LeafMap, TileLayer } from 'react-leaflet'
 import 'leaflet/dist/leaflet.css'
 
 import { paths } from '../../routes'
+import { connect } from 'react-redux'
 
 const DEFAULT_VIEWPORT = {
-  center: [51.505, -0.09],
+  center: [51, -0.09],
   zoom: 17
 }
 
 export function Map ({ history, coords }) {
   const [smaller, setSmaller] = React.useState(false)
+  const [loadedLocation, setLoadedLocation] = React.useState(false)
   const [viewport, setViewport] = React.useState(DEFAULT_VIEWPORT)
 
   useEffect(() => {
-    if (!coords) {
-      return
+    if (coords && !loadedLocation) {
+      setViewport(prevViewport => ({
+        ...prevViewport,
+        center: [coords.latitude, coords.longitude]
+      }))
+      setLoadedLocation(true)
     }
-    setViewport(prevViewport => ({
-      ...prevViewport,
-      center: [coords.latitude, coords.longitude]
-    }))
-  }, [coords])
+  }, [coords, loadedLocation])
 
   useEffect(() => {
     window.addEventListener(
@@ -79,10 +80,6 @@ const AddButton = styled(Fab)(({ theme }) => ({
   right: theme.spacing(1)
 }))
 
-const gelocatedProps = {
-  positionOptions: {
-    enableHighAccuracy: true
-  }
-}
-
-export default withRouter(geolocated(gelocatedProps)(Map))
+export default connect(state => ({
+  coords: state.settingsState.coords
+}))(withRouter(Map))
