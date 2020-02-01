@@ -23,8 +23,11 @@ function Login ({ setToken }) {
   }
 
   return (
-    <form style={{ display: 'flex' }} onSubmit={onSubmit}>
-      <Box m={2} flex={1} display='flex' flexDirection='column'>
+    <form
+      style={{ display: 'flex', flex: 1, justifyContent: 'center' }}
+      onSubmit={onSubmit}
+    >
+      <Box m={2} flex={1} display='flex' flexDirection='column' maxWidth={768}>
         <Box flex={2} display='flex' justifyContent='center'>
           <img
             src={logo}
