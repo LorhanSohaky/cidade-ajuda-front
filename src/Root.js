@@ -9,7 +9,7 @@ const Root = ({ token }) => {
 }
 
 const mapStateToProps = state => ({
-  token: state.settingsState.token
+  token: state.userState.token
 })
 
 export default connect(mapStateToProps, null)(Root)

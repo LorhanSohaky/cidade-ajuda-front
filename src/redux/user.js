@@ -14,7 +14,7 @@ const HANDLERS = {
   [Types.SET_TOKEN]: setToken
 }
 
-export const settingsReducer = createReducer(INITIAL_STATE, HANDLERS)
-export const SettingsTypes = Types
+export const userReducer = createReducer(INITIAL_STATE, HANDLERS)
+export const userTypes = Types
 
 export default Creators

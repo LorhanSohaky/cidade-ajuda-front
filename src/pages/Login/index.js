@@ -4,7 +4,7 @@ import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 import logo from '../../assets/logo.png'
 import API from '../../services/api'
-import settingsActions from '../../redux/settings'
+import userActions from '../../redux/user'
 
 function Login ({ setToken }) {
   const [fields, setFields] = useState({})
@@ -79,7 +79,7 @@ function Login ({ setToken }) {
 const mapDispatchToProps = dispatch =>
   bindActionCreators(
     {
-      setToken: settingsActions.setToken
+      setToken: userActions.setToken
     },
     dispatch
   )

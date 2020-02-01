@@ -2,10 +2,10 @@ import { combineReducers, createStore, applyMiddleware } from 'redux'
 import { persistStore, persistReducer } from 'redux-persist'
 import storage from 'redux-persist/lib/storage'
 import logger from 'redux-logger'
-import { settingsReducer } from './settings'
+import { userReducer } from './user'
 
 const reducers = combineReducers({
-  settingsState: settingsReducer
+  userState: userReducer
 })
 
 const persistConfig = {
