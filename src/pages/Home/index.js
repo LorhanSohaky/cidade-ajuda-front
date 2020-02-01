@@ -17,7 +17,7 @@ const Home = () => {
   }
 
   return (
-    <Box display='flex' flex={1} flexDirection='column' height='100vh'>
+    <Box display='flex' flex={1} flexDirection='column' height='100%'>
       <Content active={active} />
       <Menu active={active} onChange={handleEvent} />
     </Box>
