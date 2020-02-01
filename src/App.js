@@ -1,10 +1,11 @@
 import React from 'react'
 import { Provider } from 'react-redux'
 import { ThemeProvider } from '@material-ui/styles'
+import { PersistGate } from 'redux-persist/integration/react'
 
+import { persistor, store } from './redux'
 import Routes from './routes'
 import { mainTheme } from './config/theme'
-import store from './redux'
 import { create } from './services/api'
 
 const App = () => {
@@ -12,9 +13,11 @@ const App = () => {
 
   return (
     <Provider store={store}>
-      <ThemeProvider theme={mainTheme}>
-        <Routes />
-      </ThemeProvider>
+      <PersistGate loading={null} persistor={persistor}>
+        <ThemeProvider theme={mainTheme}>
+          <Routes />
+        </ThemeProvider>
+      </PersistGate>
     </Provider>
   )
 }

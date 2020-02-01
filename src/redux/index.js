@@ -1,12 +1,24 @@
 import { combineReducers, createStore, applyMiddleware } from 'redux'
-import { settingsReducer } from './settings'
+import { persistStore, persistReducer } from 'redux-persist'
+import storage from 'redux-persist/lib/storage'
 import logger from 'redux-logger'
+import { settingsReducer } from './settings'
 
 const reducers = combineReducers({
   settingsState: settingsReducer
 })
 
+const persistConfig = {
+  key: 'cidade-ajuda',
+  storage
+}
+
+const persistedReducer = persistReducer(persistConfig, reducers)
+
 const middlewares = [logger]
 
-const store = createStore(reducers, applyMiddleware(...middlewares))
-export default store
+export const store = createStore(
+  persistedReducer,
+  applyMiddleware(...middlewares)
+)
+export const persistor = persistStore(store)
