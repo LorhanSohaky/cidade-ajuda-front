@@ -1,11 +1,7 @@
 import React from 'react'
 import { makeStyles } from '@material-ui/core/styles'
-import AppBar from '@material-ui/core/AppBar'
-import Toolbar from '@material-ui/core/Toolbar'
-import Typography from '@material-ui/core/Typography'
-import Done from '@material-ui/icons/Done'
-import IconButton from '@material-ui/core/IconButton'
-import ArrowBack from '@material-ui/icons/ArrowBack'
+import { AppBar, Toolbar, Typography, IconButton } from '@material-ui/core'
+import { Done, ArrowBack } from '@material-ui/icons'
 
 const useStyles = makeStyles(theme => ({
   root: {
