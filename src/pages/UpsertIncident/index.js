@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { makeStyles } from '@material-ui/core/styles'
 import {
   AppBar,
@@ -9,12 +9,26 @@ import {
   Box,
   Switch,
   FormControlLabel,
-  Select,
-  MenuItem,
-  FormControl,
-  InputLabel
+  MenuItem
 } from '@material-ui/core'
 import { Done, ArrowBack } from '@material-ui/icons'
+import openGeocoder from 'node-open-geocoder'
+import { withRouter } from 'react-router-dom'
+import { connect } from 'react-redux'
+import { compose } from 'redux'
+
+const PromiseDecoder = ({ latitude, longitude }) => {
+  return new Promise((resolve, reject) => {
+    openGeocoder()
+      .reverse(longitude, latitude)
+      .end((err, res) => {
+        if (err) {
+          reject(new Error(err))
+        }
+        resolve(res)
+      })
+  })
+}
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -28,13 +42,14 @@ const useStyles = makeStyles(theme => ({
   }
 }))
 
-function UpsertIncident ({ history }) {
+function UpsertIncident ({ history, coords }) {
   const [fields, setFields] = useState({
     transitavel_a_pe: false,
     transitavel_veiculo: false,
     descricao: '',
     tipo: 1
   })
+  const [currentAddress, setCurrentAddress] = useState('')
 
   const goBack = () => history.push('/')
 
@@ -80,10 +95,19 @@ function UpsertIncident ({ history }) {
     event.preventDefault()
   }
 
+  useEffect(() => {
+    if (coords) {
+      PromiseDecoder(coords).then(address =>
+        setCurrentAddress(address.display_name)
+      )
+    }
+  }, [coords])
+
   return (
     <Box flex={1}>
       <Header goBack={goBack} />
       <Box padding={2} display='flex' flexDirection='column'>
+        {currentAddress}
         <TextField
           fullWidth
           variant='outlined'
@@ -139,4 +163,9 @@ function UpsertIncident ({ history }) {
   )
 }
 
-export default UpsertIncident
+const enhance = compose(
+  withRouter,
+  connect(state => ({ coords: state.settingsState.coords }), null)
+)
+
+export default enhance(UpsertIncident)
