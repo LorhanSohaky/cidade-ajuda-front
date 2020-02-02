@@ -6,7 +6,7 @@ import logo from '../../assets/logo.png'
 import API from '../../services/api'
 import userActions from '../../redux/user'
 
-function Login ({ setToken }) {
+function Login ({ setToken, setMe }) {
   const [fields, setFields] = useState({})
 
   const handleEvent = event => {
@@ -18,6 +18,10 @@ function Login ({ setToken }) {
     API.login(fields)
       .then(response => {
         setToken(response.data.token)
+        return API.getMe()
+      })
+      .then(response => {
+        setMe(response.data)
       })
       .catch(err => console.error(err))
   }
@@ -79,6 +83,7 @@ function Login ({ setToken }) {
 const mapDispatchToProps = dispatch =>
   bindActionCreators(
     {
+      setMe: userActions.setMe,
       setToken: userActions.setToken
     },
     dispatch

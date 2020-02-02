@@ -12,7 +12,7 @@ const responseWrapper = async response => {
 
 const bindToken = token => async request => {
   if (token) {
-    request.headers.Authorization = token
+    request.headers.Authorization = `Token ${token}`
   }
 }
 
@@ -30,6 +30,8 @@ export const create = (input = {}) => {
 
   API.login = ({ username, password }) =>
     api.post('/api-token-auth/', { username, password })
+
+  API.getMe = () => api.get('/api/usuarios/me/')
 }
 
 export default API
