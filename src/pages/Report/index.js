@@ -17,7 +17,9 @@ const Report = () => {
       flexDirection='column'
       alignItems='center'
     >
-      <SearchField />
+      <Box flex={1} width='100%' style={{ maxWidth: 768 }}>
+        <SearchField />
+      </Box>
     </Box>
   )
 }
