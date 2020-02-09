@@ -1,4 +1,6 @@
-import React, { useState } from 'react'
+import React from 'react'
+import { bindActionCreators } from 'redux'
+import { connect } from 'react-redux'
 
 import { Box } from '@material-ui/core'
 import BottomNavigation from '@material-ui/core/BottomNavigation'
@@ -8,18 +10,17 @@ import { LocationOn, Person, Poll } from '@material-ui/icons'
 import Map from '../Map'
 import Report from '../Report'
 import Login from '../Login'
+import settingsActions from '../../redux/settings'
 
-const Home = () => {
-  const [active, setActive] = useState('map')
-
-  function handleEvent (_, value) {
-    setActive(value)
+const Home = ({ setNavigationTab, tab }) => {
+  const handleEvent = (_, value) => {
+    setNavigationTab(value)
   }
 
   return (
     <Box display='flex' flex={1} flexDirection='column' height='100%'>
-      <Content active={active} />
-      <Menu active={active} onChange={handleEvent} />
+      <Content active={tab} />
+      <Menu active={tab} onChange={handleEvent} />
     </Box>
   )
 }
@@ -74,4 +75,16 @@ const Menu = ({ active, onChange }) => {
   )
 }
 
-export default Home
+const mapStateToProps = state => ({
+  tab: state.settingsState.tab
+})
+
+const mapDispatchToProps = dispatch =>
+  bindActionCreators(
+    {
+      setNavigationTab: settingsActions.setNavigationTab
+    },
+    dispatch
+  )
+
+export default connect(mapStateToProps, mapDispatchToProps)(Home)
