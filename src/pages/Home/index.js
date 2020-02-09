@@ -1,6 +1,5 @@
 import React from 'react'
-import { bindActionCreators } from 'redux'
-import { connect } from 'react-redux'
+import { useSelector, useDispatch } from 'react-redux'
 
 import { Box } from '@material-ui/core'
 import BottomNavigation from '@material-ui/core/BottomNavigation'
@@ -12,9 +11,12 @@ import Report from '../Report'
 import Login from '../Login'
 import settingsActions from '../../redux/settings'
 
-const Home = ({ setNavigationTab, tab }) => {
+const Home = () => {
+  const tab = useSelector(state => state.settingsState.tab)
+  const dispatch = useDispatch()
+
   const handleEvent = (_, value) => {
-    setNavigationTab(value)
+    dispatch(settingsActions.setNavigationTab(value))
   }
 
   return (
@@ -75,16 +77,4 @@ const Menu = ({ active, onChange }) => {
   )
 }
 
-const mapStateToProps = state => ({
-  tab: state.settingsState.tab
-})
-
-const mapDispatchToProps = dispatch =>
-  bindActionCreators(
-    {
-      setNavigationTab: settingsActions.setNavigationTab
-    },
-    dispatch
-  )
-
-export default connect(mapStateToProps, mapDispatchToProps)(Home)
+export default Home
