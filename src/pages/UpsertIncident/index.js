@@ -1,4 +1,9 @@
 import React, { useState, useEffect } from 'react'
+import { withRouter } from 'react-router-dom'
+import { connect } from 'react-redux'
+import { compose } from 'redux'
+import openGeocoder from 'node-open-geocoder'
+
 import { makeStyles } from '@material-ui/core/styles'
 import {
   AppBar,
@@ -12,10 +17,6 @@ import {
   MenuItem
 } from '@material-ui/core'
 import { Done, ArrowBack } from '@material-ui/icons'
-import openGeocoder from 'node-open-geocoder'
-import { withRouter } from 'react-router-dom'
-import { connect } from 'react-redux'
-import { compose } from 'redux'
 
 const PromiseDecoder = ({ latitude, longitude }) => {
   return new Promise((resolve, reject) => {
