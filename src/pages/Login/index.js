@@ -37,7 +37,7 @@ function Login ({ setToken, setMe }) {
             src={logo}
             alt='logo'
             width='100%'
-            style={{ objectFit: 'contain' }}
+            style={{ objectFit: 'contain', maxWidth: 500 }}
           />
         </Box>
         <Box style={{ display: 'flex', flexDirection: 'column', flex: 1 }}>
