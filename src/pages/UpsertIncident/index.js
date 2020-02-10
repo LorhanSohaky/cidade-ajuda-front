@@ -14,9 +14,11 @@ import {
   Box,
   Switch,
   FormControlLabel,
+  Snackbar,
   MenuItem
 } from '@material-ui/core'
 import { Done, ArrowBack } from '@material-ui/icons'
+import MuiAlert from '@material-ui/lab/Alert'
 
 const PromiseDecoder = ({ latitude, longitude }) => {
   return new Promise((resolve, reject) => {
@@ -48,9 +50,11 @@ function UpsertIncident ({ history, coords }) {
     transitavel_a_pe: false,
     transitavel_veiculo: false,
     descricao: '',
-    tipo: 1
+    tipo: 0
   })
-  const [currentAddress, setCurrentAddress] = useState('')
+  const [currentAddress, setCurrentAddress] = useState()
+  const [openSnackbar, setOpenSnackbar] = useState(false)
+  const [snackbar, setSnackbar] = useState({ severity: 'warning', message: '' })
 
   const goBack = () => history.push('/')
 
@@ -92,8 +96,38 @@ function UpsertIncident ({ history, coords }) {
     setFields({ ...fields, [event.target.name]: !currentValue })
   }
 
-  const onSubmit = event => {
-    event.preventDefault()
+  const onSubmit = () => {
+    if (!isValid({ ...fields, coords })) {
+      setOpenSnackbar(true)
+      return
+    }
+
+    console.log('TODO send')
+  }
+
+  const isValid = ({ tipo, descricao, coords }) => {
+    if (!tipo) {
+      setSnackbar({
+        message: 'Escolha um tipo para a ocorrência!',
+        severity: 'error'
+      })
+      return false
+    } else if (!descricao) {
+      setSnackbar({
+        message: 'Escreva uma descrição para ajudar as outras pessoas!',
+        severity: 'error'
+      })
+      return false
+    } else if (!coords) {
+      setSnackbar({
+        message:
+          'Para relatar uma ocorrência é necessário o uso de GPS! Vá até as configurações e ative o GPS.',
+        severity: 'error'
+      })
+      return false
+    }
+
+    return true
   }
 
   useEffect(() => {
@@ -101,14 +135,29 @@ function UpsertIncident ({ history, coords }) {
       PromiseDecoder(coords).then(address =>
         setCurrentAddress(address.display_name)
       )
+    } else {
+      setOpenSnackbar(true)
+      setSnackbar({
+        message: 'Ative o GPS para pode relatar uma ocorrência.',
+        severity: 'warning'
+      })
     }
   }, [coords])
 
   return (
-    <Box flex={1}>
+    <Box
+      flex={1}
+      display='flex'
+      flexDirection='column'
+      style={{ justifyContent: 'center', alignItems: 'center' }}
+    >
       <Header goBack={goBack} />
-      <Box padding={2} display='flex' flexDirection='column'>
-        {currentAddress}
+      <Box
+        padding={2}
+        display='flex'
+        flexDirection='column'
+        style={{ maxWidth: 768 }}
+      >
         <TextField
           fullWidth
           variant='outlined'
@@ -159,6 +208,27 @@ function UpsertIncident ({ history, coords }) {
           helperText='Ao detalhar bem as pessoas terão informações adicionais que podem ser essenciais'
           onChange={handleEvent}
         />
+        <span
+          style={{
+            paddingLeft: 4,
+            paddingRight: 4,
+            paddingBottom: 16,
+            paddingTop: 16
+          }}
+        >
+          {currentAddress
+            ? `Região da ocorrência: ${currentAddress}`
+            : 'Região não expecificada'}
+        </span>
+        <Snackbar
+          open={openSnackbar}
+          autoHideDuration={3000}
+          onClose={() => setOpenSnackbar(false)}
+        >
+          <MuiAlert elevation={6} variant='filled' severity={snackbar.severity}>
+            {snackbar.message}
+          </MuiAlert>
+        </Snackbar>
       </Box>
     </Box>
   )
