@@ -5,7 +5,7 @@ import Alert from '@material-ui/lab/Alert'
 export const ToastContext = React.createContext()
 
 export default function ToastHandler ({ children }) {
-  const [isOpen, setIsOpen] = useState(true)
+  const [isOpen, setIsOpen] = useState(false)
   const [severity, setSeverity] = useState('warning')
   const [message, setMessage] = useState('')
 
