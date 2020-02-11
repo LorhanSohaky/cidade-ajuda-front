@@ -135,6 +135,7 @@ function UpsertIncident ({ history, coords }) {
       toastContext.setSeverity('warning')
       toastContext.setIsOpen(true)
     }
+    // eslint-disable-next-line
   }, [coords])
 
   return (
