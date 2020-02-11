@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useContext } from 'react'
 import { withRouter } from 'react-router-dom'
 import { connect } from 'react-redux'
 import { compose } from 'redux'
@@ -14,11 +14,10 @@ import {
   Box,
   Switch,
   FormControlLabel,
-  Snackbar,
   MenuItem
 } from '@material-ui/core'
 import { Done, ArrowBack } from '@material-ui/icons'
-import MuiAlert from '@material-ui/lab/Alert'
+import { ToastContext } from '../../services/ToastHandler'
 
 const PromiseDecoder = ({ latitude, longitude }) => {
   return new Promise((resolve, reject) => {
@@ -53,8 +52,7 @@ function UpsertIncident ({ history, coords }) {
     tipo: 0
   })
   const [currentAddress, setCurrentAddress] = useState()
-  const [openSnackbar, setOpenSnackbar] = useState(false)
-  const [snackbar, setSnackbar] = useState({ severity: 'warning', message: '' })
+  const toastContext = useContext(ToastContext)
 
   const goBack = () => history.push('/')
 
@@ -98,7 +96,7 @@ function UpsertIncident ({ history, coords }) {
 
   const onSubmit = () => {
     if (!isValid({ ...fields, coords })) {
-      setOpenSnackbar(true)
+      toastContext.setIsOpen(true)
       return
     }
 
@@ -107,23 +105,20 @@ function UpsertIncident ({ history, coords }) {
 
   const isValid = ({ tipo, descricao, coords }) => {
     if (!tipo) {
-      setSnackbar({
-        message: 'Escolha um tipo para a ocorrência!',
-        severity: 'error'
-      })
+      toastContext.setMessage('Escolha um tipo para a ocorrência!')
+      toastContext.setSeverity('error')
       return false
     } else if (!descricao) {
-      setSnackbar({
-        message: 'Escreva uma descrição para ajudar as outras pessoas!',
-        severity: 'error'
-      })
+      toastContext.setMessage(
+        'Escreva uma descrição para ajudar as outras pessoas!'
+      )
+      toastContext.setSeverity('error')
       return false
     } else if (!coords) {
-      setSnackbar({
-        message:
-          'Para relatar uma ocorrência é necessário o uso de GPS! Vá até as configurações e ative o GPS.',
-        severity: 'error'
-      })
+      toastContext.setMessage(
+        'Para relatar uma ocorrência é necessário o uso de GPS! Vá até as configurações e ative o GPS.'
+      )
+      toastContext.setSeverity('error')
       return false
     }
 
@@ -136,11 +131,9 @@ function UpsertIncident ({ history, coords }) {
         setCurrentAddress(address.display_name)
       )
     } else {
-      setOpenSnackbar(true)
-      setSnackbar({
-        message: 'Ative o GPS para pode relatar uma ocorrência.',
-        severity: 'warning'
-      })
+      toastContext.setMessage('Ative o GPS para pode relatar uma ocorrência.')
+      toastContext.setSeverity('warning')
+      toastContext.setIsOpen(true)
     }
   }, [coords])
 
@@ -220,15 +213,6 @@ function UpsertIncident ({ history, coords }) {
             ? `Região da ocorrência: ${currentAddress}`
             : 'Região não expecificada'}
         </span>
-        <Snackbar
-          open={openSnackbar}
-          autoHideDuration={3000}
-          onClose={() => setOpenSnackbar(false)}
-        >
-          <MuiAlert elevation={6} variant='filled' severity={snackbar.severity}>
-            {snackbar.message}
-          </MuiAlert>
-        </Snackbar>
       </Box>
     </Box>
   )
