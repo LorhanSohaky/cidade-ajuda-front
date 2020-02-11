@@ -17,6 +17,8 @@ import {
   MenuItem
 } from '@material-ui/core'
 import { Done, ArrowBack } from '@material-ui/icons'
+
+import API from '../../services/api'
 import { ToastContext } from '../../services/ToastHandler'
 
 const PromiseDecoder = ({ latitude, longitude }) => {
@@ -100,7 +102,19 @@ function UpsertIncident ({ history, coords }) {
       return
     }
 
-    console.log('TODO send')
+    const data = { ...fields, ...coords }
+
+    API.postIncident(data)
+      .then(() => {
+        toastContext.setMessage('Ocorrência registrada com sucesso')
+        toastContext.setSeverity('success')
+      })
+      .catch(err => {
+        console.error(err)
+        toastContext.setMessage('Erro ao cadastrar ocorrência!')
+        toastContext.setSeverity('error')
+      })
+      .finally(() => toastContext.setIsOpen(true))
   }
 
   const isValid = ({ tipo, descricao, coords }) => {

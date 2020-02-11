@@ -32,6 +32,8 @@ export const create = (input = {}) => {
     api.post('/api-token-auth/', { username, password })
 
   API.getMe = () => api.get('/api/usuarios/me/')
+
+  API.postIncident = data => api.post('api/ocorrencias/', data)
 }
 
 export default API
