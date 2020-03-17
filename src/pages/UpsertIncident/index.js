@@ -108,6 +108,7 @@ function UpsertIncident ({ history, coords }) {
       .then(() => {
         toastContext.setMessage('Ocorrência registrada com sucesso')
         toastContext.setSeverity('success')
+        goBack()
       })
       .catch(err => {
         console.error(err)
