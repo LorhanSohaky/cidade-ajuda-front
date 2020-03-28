@@ -33,8 +33,11 @@ export const create = (input = {}) => {
 
   API.getMe = () => api.get('/api/usuarios/me/')
 
+  API.getTypes = () => api.get('/api/tipos/')
+
   API.postIncident = data => api.post('api/ocorrencias/', data)
   API.listIncidents = data => api.get('api/ocorrencias/', data)
+  API.getReport = placeId => api.get(`api/relatorio/${placeId}`)
 }
 
 export default API
