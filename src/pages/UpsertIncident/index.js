@@ -55,6 +55,22 @@ function UpsertIncident ({ history, coords }) {
   })
   const [currentAddress, setCurrentAddress] = useState()
   const toastContext = useContext(ToastContext)
+  const [types, setTypes] = useState([])
+
+  React.useEffect(() => {
+    API.getTypes().then(({ data }) => {
+      /* eslint-disable camelcase */
+      const transformatedData = data.results.reduce(
+        (obj, { id, titulo, sugestao_descricao }) => {
+          obj[id] = { id, titulo, sugestao_descricao }
+          return obj
+        },
+        {}
+      )
+      /* eslint-enable camelcase */
+      setTypes(transformatedData)
+    })
+  }, [])
 
   const goBack = () => history.push('/')
 
@@ -177,7 +193,11 @@ function UpsertIncident ({ history, coords }) {
           onChange={handleEvent}
           helperText='Selecione o tipo de ocorrência'
         >
-          <MenuItem value='1'>Buraco</MenuItem>
+          {Object.keys(types).map(key => (
+            <MenuItem key={key} value={key}>
+              {types[key].titulo}
+            </MenuItem>
+          ))}
         </TextField>
 
         <FormControlLabel
@@ -214,7 +234,13 @@ function UpsertIncident ({ history, coords }) {
           required
           multiline
           rows='10'
-          helperText='Ao detalhar bem as pessoas terão informações adicionais que podem ser essenciais'
+          helperText={
+            /* eslint-disable camelcase */
+            fields.tipo !== 0
+              ? types[fields.tipo].sugestao_descricao
+              : 'Ao detalhar bem as pessoas terão informações adicionais que podem ser essenciais'
+            /* eslint-enable camelcase */
+          }
           onChange={handleEvent}
         />
         <span
