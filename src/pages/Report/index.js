@@ -6,8 +6,12 @@ import {
   Grid,
   Typography,
   CircularProgress,
-  List,
-  ListItem
+  Table,
+  TableRow,
+  TableCell,
+  TableHead,
+  TableBody,
+  TableContainer
 } from '@material-ui/core'
 import LocationOnIcon from '@material-ui/icons/LocationOn'
 import Autocomplete from '@material-ui/lab/Autocomplete'
@@ -61,14 +65,25 @@ const Report = () => {
     >
       <Box flex={1} width='100%' style={{ maxWidth: 768 }}>
         <SearchField onChange={onSelectRegion} />
+        <TableContainer style={{ marginTop: 32 }}>
+          <Table stickyHeader>
+            <TableHead>
+              <TableRow>
+                <TableCell>Tipo</TableCell>
+                <TableCell align='right'>Quantidade</TableCell>
+              </TableRow>
+            </TableHead>
+            <TableBody>
+              {region.map(item => (
+                <TableRow key={item.id}>
+                  <TableCell>{item.titulo}</TableCell>
+                  <TableCell align='right'>{item.incidents.length}</TableCell>
+                </TableRow>
+              ))}
+            </TableBody>
+          </Table>
+        </TableContainer>
       </Box>
-      <List>
-        {region.map(item => (
-          <ListItem key={item.id}>
-            {item.titulo} - {item.incidents.length}
-          </ListItem>
-        ))}
-      </List>
     </Box>
   )
 }
