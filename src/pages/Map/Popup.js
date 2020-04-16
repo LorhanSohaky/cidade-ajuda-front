@@ -8,6 +8,11 @@ import {
   DialogActions
 } from '@material-ui/core'
 
+const noCar = require('../../assets/icons/no-car.png')
+const car = require('../../assets/icons/car.png')
+const noWalker = require('../../assets/icons/no-walker.png')
+const walker = require('../../assets/icons/walker.png')
+
 function Popup ({ open, onClose, data }) {
   if (!open || !data) {
     return null
@@ -19,8 +24,8 @@ function Popup ({ open, onClose, data }) {
       <DialogContent>
         <DialogContentText>{data.descricao}</DialogContentText>
         <div>
-          Transitavel a pé: {data.transitavelAPe ? 'Sim' : 'Não'}
-          Transitavel veículo: {data.transitavelVeiculo ? 'Sim' : 'Não'}
+          <img src={data.transitavelAPe ? walker : noWalker} />
+          <img src={data.transitavelVeiculo ? car : noCar} />
         </div>
         <div>
           <Button variant='contained' color='primary'>
