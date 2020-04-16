@@ -10,6 +10,7 @@ import Map from '../Map'
 import Report from '../Report'
 import Login from '../Login'
 import settingsActions from '../../redux/settings'
+import User from '../User'
 
 const Home = () => {
   const tab = useSelector(state => state.settingsState.tab)
@@ -44,9 +45,10 @@ const contents = {
 
 const Content = ({ active }) => {
   const content = {}
+  const user = useSelector(state => state.userState.me)
   content[contents.map.value] = <Map />
   content[contents.report.value] = <Report />
-  content[contents.profile.value] = <Login />
+  content[contents.profile.value] = user ? <User /> : <Login />
 
   return (
     <Box flex={1} display='flex'>

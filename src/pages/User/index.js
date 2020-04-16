@@ -4,7 +4,7 @@ import { useSelector, useDispatch } from 'react-redux'
 
 import userActions from '../../redux/user'
 
-function User ({}) {
+function User () {
   const user = useSelector(state => state.userState.me)
   const dispatch = useDispatch()
 
