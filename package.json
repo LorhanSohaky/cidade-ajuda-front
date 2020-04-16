@@ -3,9 +3,9 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
-    "@material-ui/core": "^4.9.9",
+    "@material-ui/core": "^4.9.10",
     "@material-ui/icons": "^4.9.1",
-    "@material-ui/lab": "^4.0.0-alpha.48",
+    "@material-ui/lab": "^4.0.0-alpha.49",
     "apisauce": "^1.1.1",
     "leaflet": "^1.6.0",
     "lodash": "^4.17.15",
@@ -61,7 +61,7 @@
     ]
   },
   "devDependencies": {
-    "husky": "^4.2.3",
+    "husky": "^4.2.5",
     "prettier-standard": "^16.2.1",
     "serve": "^11.3.0"
   }
