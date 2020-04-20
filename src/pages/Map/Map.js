@@ -1,10 +1,11 @@
 import React, { useEffect, useRef, useState } from 'react'
 import { Map as LeafMap, TileLayer, Marker } from 'react-leaflet'
-import { connect } from 'react-redux'
+import { useSelector } from 'react-redux'
 
 import API from '../../services/api'
 
-function Map ({ initialCoords, coords, onSelectMarker, onError = () => {} }) {
+function Map ({ initialCoords, onSelectMarker, onError = () => {} }) {
+  const coords = useSelector(state => state.settingsState.coords)
   const [loadedLocation, setLoadedLocation] = React.useState(false)
   const [viewport, setViewport] = React.useState(initialCoords)
   const [markers, setMarkers] = React.useState([])
@@ -23,56 +24,54 @@ function Map ({ initialCoords, coords, onSelectMarker, onError = () => {} }) {
         setTypes(transformatedData)
       })
       .catch(err => {
-        console.error(err)
         onError(err)
       })
-  }, [])
-
-  function handleBounds (map) {
-    const bounds = map.getBounds()
-    const southWest = Object.values(bounds._southWest)
-    const northEast = Object.values(bounds._northEast)
-
-    API.listIncidents({ southWest, northEast })
-      .then(response => {
-        /* eslint-disable camelcase */
-        const incidents = response.data.results.map(
-          ({
-            id,
-            latitude,
-            longitude,
-            descricao,
-            tipo,
-            transitavel_a_pe,
-            transitavel_veiculo,
-            quantidade_existente,
-            quantidade_inexistente,
-            quantidade_caso_encerrado
-          }) => ({
-            id,
-            tipo: types[tipo].titulo,
-            position: [latitude, longitude],
-            descricao,
-            transitavelAPe: transitavel_a_pe,
-            transitavelVeiculo: transitavel_veiculo,
-            quantidadeExistente: quantidade_existente,
-            quantidadeInexistente: quantidade_inexistente,
-            quantidadeCasoEncerrado: quantidade_caso_encerrado
-          })
-        )
-        setMarkers(incidents)
-        /* eslint-enable camelcase */
-      })
-      .catch(err => {
-        console.error(err)
-        onError(err)
-      })
-  }
+  }, [onError])
 
   useEffect(() => {
+    function handleBounds (map) {
+      const bounds = map.getBounds()
+      const southWest = Object.values(bounds._southWest)
+      const northEast = Object.values(bounds._northEast)
+
+      API.listIncidents({ southWest, northEast })
+        .then(response => {
+          /* eslint-disable camelcase */
+          const incidents = response.data.results.map(
+            ({
+              id,
+              latitude,
+              longitude,
+              descricao,
+              tipo,
+              transitavel_a_pe,
+              transitavel_veiculo,
+              quantidade_existente,
+              quantidade_inexistente,
+              quantidade_caso_encerrado
+            }) => ({
+              id,
+              tipo: types[tipo].titulo,
+              position: [latitude, longitude],
+              descricao,
+              transitavelAPe: transitavel_a_pe,
+              transitavelVeiculo: transitavel_veiculo,
+              quantidadeExistente: quantidade_existente,
+              quantidadeInexistente: quantidade_inexistente,
+              quantidadeCasoEncerrado: quantidade_caso_encerrado
+            })
+          )
+          /* eslint-enable camelcase */
+          setMarkers(incidents)
+        })
+        .catch(err => {
+          onError(err)
+        })
+    }
+
     const hasTypes = Object.keys(types).length > 0
     hasTypes && handleBounds(mapRef.current.leafletElement)
-  }, [types, viewport])
+  }, [types, viewport, onError])
 
   useEffect(() => {
     if (coords && !loadedLocation) {
@@ -110,6 +109,4 @@ function Map ({ initialCoords, coords, onSelectMarker, onError = () => {} }) {
   )
 }
 
-export default connect(state => ({
-  coords: state.settingsState.coords
-}))(Map)
+export default Map

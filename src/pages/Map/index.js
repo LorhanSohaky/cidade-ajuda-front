@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useCallback, useContext } from 'react'
 import { withRouter } from 'react-router'
 import { connect } from 'react-redux'
 
@@ -9,16 +9,18 @@ import AddIcon from '@material-ui/icons/Add'
 import { paths } from '../../routes'
 import Popup from './Popup'
 import Map from './Map'
+import { ToastContext } from '../../services/ToastHandler'
 
 const DEFAULT_VIEWPORT = {
   center: [51, -0.09],
   zoom: 17
 }
 
-export function MapPage ({ history, coords, dimensions }) {
+export function MapPage ({ history, dimensions }) {
   const [smaller, setSmaller] = React.useState(false)
   const [open, setOpen] = React.useState(false)
   const [selectedItem, setSelectedItem] = React.useState(null)
+  const toastContext = useContext(ToastContext)
 
   useEffect(() => {
     if (dimensions) {
@@ -37,6 +39,16 @@ export function MapPage ({ history, coords, dimensions }) {
     setOpen(open)
   }
 
+  const handleError = useCallback(
+    error => {
+      toastContext.setMessage(`${error.message}`)
+      toastContext.setSeverity('error')
+      toastContext.setIsOpen(true)
+      console.error(error)
+    },
+    [toastContext]
+  )
+
   return (
     <Box flex={1}>
       <AddButton
@@ -50,6 +62,7 @@ export function MapPage ({ history, coords, dimensions }) {
       <Map
         initialCoords={DEFAULT_VIEWPORT}
         onSelectMarker={item => handlePopup(true, item)}
+        onError={handleError}
       />
       <Popup
         open={open}
