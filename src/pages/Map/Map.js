@@ -1,8 +1,9 @@
-import React, { useEffect, useRef, useState } from 'react'
+import React, { useEffect, useRef, useContext } from 'react'
 import { Map as LeafMap, TileLayer, Marker } from 'react-leaflet'
 import { useSelector } from 'react-redux'
 
 import API from '../../services/api'
+import { AppContext } from '../../Root'
 
 function Map ({ initialCoords, onSelectMarker, onError = () => {} }) {
   const coords = useSelector(state => state.settingsState.coords)
@@ -12,21 +13,7 @@ function Map ({ initialCoords, onSelectMarker, onError = () => {} }) {
 
   const mapRef = useRef(null)
 
-  const [types, setTypes] = useState({})
-
-  React.useEffect(() => {
-    API.getTypes()
-      .then(({ data }) => {
-        const transformatedData = data.results.reduce((obj, { id, titulo }) => {
-          obj[id] = { id, titulo }
-          return obj
-        }, {})
-        setTypes(transformatedData)
-      })
-      .catch(err => {
-        onError(err)
-      })
-  }, [onError])
+  const { types } = useContext(AppContext)
 
   useEffect(() => {
     function handleBounds (map) {

@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useContext } from 'react'
 
 import {
   Box,
@@ -20,20 +20,11 @@ import { useAsync } from 'react-async-hook'
 import throttle from 'lodash/throttle'
 import openGeocoder from 'node-open-geocoder'
 import API from '../../services/api'
+import { AppContext } from '../../Root'
 
 const Report = () => {
   const [region, setRegion] = useState([])
-  const [types, setTypes] = useState({})
-
-  React.useEffect(() => {
-    API.getTypes().then(({ data }) => {
-      const transformatedData = data.results.reduce((obj, { id, titulo }) => {
-        obj[id] = { id, titulo }
-        return obj
-      }, {})
-      setTypes(transformatedData)
-    })
-  }, [])
+  const { types } = useContext(AppContext)
 
   const onSelectRegion = (event, value) => {
     if (value) {

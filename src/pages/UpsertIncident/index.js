@@ -20,6 +20,7 @@ import { Done, ArrowBack } from '@material-ui/icons'
 
 import API from '../../services/api'
 import { ToastContext } from '../../services/ToastHandler'
+import { AppContext } from '../../Root'
 
 const PromiseDecoder = ({ latitude, longitude }) => {
   return new Promise((resolve, reject) => {
@@ -51,26 +52,11 @@ function UpsertIncident ({ history, coords }) {
     transitavel_a_pe: false,
     transitavel_veiculo: false,
     descricao: '',
-    tipo: 0
+    tipo: ''
   })
   const [currentAddress, setCurrentAddress] = useState()
   const toastContext = useContext(ToastContext)
-  const [types, setTypes] = useState([])
-
-  React.useEffect(() => {
-    API.getTypes().then(({ data }) => {
-      /* eslint-disable camelcase */
-      const transformatedData = data.results.reduce(
-        (obj, { id, titulo, sugestao_descricao }) => {
-          obj[id] = { id, titulo, sugestao_descricao }
-          return obj
-        },
-        {}
-      )
-      /* eslint-enable camelcase */
-      setTypes(transformatedData)
-    })
-  }, [])
+  const { types } = useContext(AppContext)
 
   const goBack = () => history.push('/')
 
@@ -194,7 +180,7 @@ function UpsertIncident ({ history, coords }) {
           helperText='Selecione o tipo de ocorrência'
         >
           {Object.keys(types).map(key => (
-            <MenuItem key={key} value={key}>
+            <MenuItem key={`${key}`} value={`${key}`}>
               {types[key].titulo}
             </MenuItem>
           ))}
@@ -236,7 +222,7 @@ function UpsertIncident ({ history, coords }) {
           rows='10'
           helperText={
             /* eslint-disable camelcase */
-            fields.tipo !== 0
+            fields.tipo
               ? types[fields.tipo].sugestao_descricao
               : 'Ao detalhar bem as pessoas terão informações adicionais que podem ser essenciais'
             /* eslint-enable camelcase */
