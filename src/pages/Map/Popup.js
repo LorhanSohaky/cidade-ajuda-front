@@ -24,8 +24,20 @@ function Popup ({ open, onClose, data }) {
       <DialogContent>
         <DialogContentText>{data.descricao}</DialogContentText>
         <div>
-          <img src={data.transitavelAPe ? walker : noWalker} />
-          <img src={data.transitavelVeiculo ? car : noCar} />
+          <img
+            src={data.transitavelAPe ? walker : noWalker}
+            alt={
+              data.transitavelAPe ? 'transitável a pé' : 'não transitável a pé'
+            }
+          />
+          <img
+            src={data.transitavelVeiculo ? car : noCar}
+            alt={
+              data.transitavelVeiculo
+                ? 'transitável por veículos'
+                : 'não transitável por veículos'
+            }
+          />
         </div>
         <div>
           <Button variant='contained' color='primary'>
