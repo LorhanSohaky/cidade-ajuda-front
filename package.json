@@ -7,7 +7,7 @@
     "@material-ui/icons": "^4.9.1",
     "@material-ui/lab": "^4.0.0-alpha.49",
     "apisauce": "^1.1.1",
-    "leaflet": "^1.6.0",
+    "leaflet": "^1.7.1",
     "lodash": "^4.17.20",
     "node-open-geocoder": "^4.0.1",
     "react": "^16.13.1",
