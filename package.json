@@ -8,7 +8,7 @@
     "@material-ui/lab": "^4.0.0-alpha.49",
     "lodash": "^4.17.21",
     "apisauce": "^2.1.6",
-    "leaflet": "^1.9.1",
+    "leaflet": "^1.9.2",
     "node-open-geocoder": "^4.0.1",
     "react": "^16.14.0",
     "react-dom": "^16.14.0",
